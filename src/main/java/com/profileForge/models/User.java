@@ -4,6 +4,9 @@ package com.profileForge.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +20,8 @@ import lombok.*;
 public class User {
 
     @Id
-  private   String userId;
- private    String email;
+   private   String userId;
+   private    String email;
 
   private   String userName;
    private String password;
@@ -28,8 +31,15 @@ public class User {
   private   String phoneNo;
 
  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
- @JoinColumn(name = "address_id")
+
  private Address address;
+
+ @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+ private List<Education> educations = new ArrayList<>();
+
+
+ @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+ private  SocialHandel socialHandel;
 
 
 }

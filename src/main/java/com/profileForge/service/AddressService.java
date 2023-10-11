@@ -13,5 +13,12 @@ public interface AddressService {
     AddressDto updateAddress(AddressDto addressDto,String userId);
 
 
+    void  deleteAddressOfUser(String  userId);
+
+
+    //  get Address of user
+
+    AddressDto  getAddressOfUser(String  userId);
+
 
 }

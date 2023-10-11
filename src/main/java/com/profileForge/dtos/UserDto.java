@@ -1,8 +1,11 @@
 package com.profileForge.dtos;
 
 
+import com.profileForge.models.Education;
 import jakarta.persistence.Id;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +24,9 @@ public class UserDto {
    private   String bio;
    private String phoneNo;
    private AddressDto address;
+
+   private SocialHandelDto socialHandel;
+
+ private List<EducationDto> educations;
 
 }

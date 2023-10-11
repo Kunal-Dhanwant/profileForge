@@ -8,12 +8,14 @@ import com.profileForge.models.User;
 import com.profileForge.repos.AddressRepo;
 import com.profileForge.repos.UserRepository;
 import com.profileForge.service.AddressService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -57,8 +59,35 @@ public class AddressServiceImpl implements AddressService {
         address.setPincode(addressDto.getPincode());
         address.setState(addressDto.getState());
 
-        Address updatedAddress = addressRepo.save(address);
+        user.setAddress(address);
+        User user1= userRepository.save(user);
 
-        return modelMapper.map(updatedAddress, AddressDto.class) ;
+        return modelMapper.map(user1.getAddress(), AddressDto.class) ;
     }
+
+    @Override
+    public void deleteAddressOfUser(String userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user with given id doest not exist"));
+        Address address = addressRepo.findByUser(user).orElseThrow(()->new ResourceNotFoundException("address of the user doest not exist please add address"));
+
+
+        user.setAddress(null);
+        userRepository.save(user);
+        addressRepo.delete(address);
+
+
+
+    }
+
+    @Override
+    public AddressDto getAddressOfUser(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user with given id doest not exist"));
+        Address address = addressRepo.findByUser(user).orElseThrow(()->new ResourceNotFoundException("address of the user doest not exist please add address"));
+
+
+        return modelMapper.map(address, AddressDto.class);
+    }
+
+
 }
