@@ -1,6 +1,7 @@
 package com.profileForge.models;
 
 
+import com.profileForge.dtos.SkillItemDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,6 +41,9 @@ public class User {
 
  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
  private  SocialHandel socialHandel;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+    private List<SkillsItem> skillsList = new ArrayList<>();
 
 
 }

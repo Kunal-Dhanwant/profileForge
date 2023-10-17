@@ -2,9 +2,11 @@ package com.profileForge.dtos;
 
 
 import com.profileForge.models.Education;
+import com.profileForge.models.SkillsItem;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,5 +30,6 @@ public class UserDto {
    private SocialHandelDto socialHandel;
 
  private List<EducationDto> educations;
+ private List<SkillItemDto> skillsList = new ArrayList<>();
 
 }
