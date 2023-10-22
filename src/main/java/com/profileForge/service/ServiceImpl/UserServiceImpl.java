@@ -6,14 +6,17 @@ import com.profileForge.exception.ResourceNotFoundException;
 import com.profileForge.models.User;
 import com.profileForge.repos.UserRepository;
 import com.profileForge.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -24,6 +27,10 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
 
     @Override
     public UserDto createUser(SignUpDto signUpDto) {
@@ -32,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
         User user =modelMapper.map(signUpDto, User.class);
         user.setUserId(userId);
+        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
         User savedUser = userRepository.save(user);
 
@@ -49,18 +57,20 @@ public class UserServiceImpl implements UserService {
 
         User user =  userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with given Id doest not exist"));
 
+        log.info(user.getEmail() +" " + user.getUserUrl()+"this is user **********");
 
-        user.setUserName(userDto.getUserName());
+
+
+        user.setUserUrl(userDto.getUserUrl());
         user.setFirstName(userDto.getFirstName());
+
         user.setLastName(userDto.getLastName());
         user.setBio(userDto.getBio());
         user.setPhoneNo(userDto.getPhoneNo());
-        user.setProfileImage(userDto.getProfileImage());
-        user.setResumeFile(userDto.getResumeFile());
-        user.setResuleFileUrl(userDto.getResuleFileUrl());
-        user.setProfileImageUrl(userDto.getProfileImageUrl());
+
 
         User updateduser = userRepository.save(user);
+        log.info(updateduser.getEmail() +" " + updateduser.getUserUrl()+"this is user **********");
 
         return  modelMapper.map(updateduser, UserDto.class);
 
@@ -87,7 +97,9 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userRepository.findAll();
 
-        List<UserDto> dtolist = users.stream().map(user-> new ModelMapper().map(user, UserDto.class)).collect(Collectors.toList());
+
+
+        List<UserDto> dtolist = users.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
 
 
 
@@ -98,13 +110,15 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(String userId) {
         User user =  userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with given Id doest not exist"));
 
+        log.info(user.getEmail() +" " + user.getUserUrl()+"this is user **********");
+
         return modelMapper.map(user, UserDto.class);
     }
 
     @Override
-    public UserDto getUserByUserName(String userName) {
+    public UserDto getUserByUserName(String username) {
 
-        User user =  userRepository.findByUserName(userName).orElseThrow(()-> new ResourceNotFoundException("User with given User Name doest not exist"));
+        User user =  userRepository.findByUserUrl(username).orElseThrow(()-> new ResourceNotFoundException("User with given User Name doest not exist"));
 
 
 
@@ -123,6 +137,33 @@ public class UserServiceImpl implements UserService {
     public boolean isexist(String userName) {
 
 
-        return userRepository.existsByUserName(userName);
+        return userRepository.existsByUserUrl(userName);
     }
+
+    @Override
+    public UserDto updateProfileImage(UserDto userDto, String userId) {
+        User user =  userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with given Id doest not exist"));
+
+        user.setProfileImage(userDto.getProfileImage());
+        user.setProfileImageUrl(userDto.getProfileImageUrl());
+
+        User user1 = userRepository.save(user);
+        return  modelMapper.map(user1,UserDto.class);
+
+    }
+
+    @Override
+    public UserDto updateUserResume(UserDto userDto, String userId) {
+        User user =  userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with given Id doest not exist"));
+
+        user.setResumeFile(userDto.getResumeFile());
+        user.setResuleFileUrl(userDto.getResuleFileUrl());
+
+        User user1 = userRepository.save(user);
+        return  modelMapper.map(user1,UserDto.class);
+
+
+    }
+
+
 }

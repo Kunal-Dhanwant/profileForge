@@ -1,6 +1,7 @@
 package com.profileForge.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,8 +29,10 @@ public class Education {
 
     private  String Country;
     @Column(nullable = false)
+
     private Date startDate;
     @Column(nullable = false)
+
     private Date endDate;
     @Column(nullable = false)
     private String Degree;

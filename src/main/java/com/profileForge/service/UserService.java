@@ -33,6 +33,11 @@ public interface UserService {
     boolean isexist(String userName);
 
 
+    UserDto updateProfileImage(UserDto userDto, String userId);
+
+    UserDto updateUserResume(UserDto userDto,String userId);
+
+
 
 
 

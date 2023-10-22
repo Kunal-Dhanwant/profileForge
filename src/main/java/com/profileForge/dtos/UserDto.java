@@ -25,7 +25,7 @@ public class UserDto {
    private String email;
 
    @NotBlank(message = "please provide unique user name")
-   private    String userName;
+   private  String userUrl;
    private String password;
    @NotBlank(message = "please enter first name")
    private String firstName;

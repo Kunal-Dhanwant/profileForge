@@ -99,9 +99,9 @@ public class UserControllers {
     }
 
 
-    @GetMapping("/{userName}")
-    public ResponseEntity<UserDto>  getUserByUserName(@PathVariable String userName){
-        UserDto  userDto =  userService.getUserByUserName(userName);
+    @GetMapping("/username/{userUrl}")
+    public ResponseEntity<UserDto>  getUserByUserName(@PathVariable String userUrl){
+        UserDto  userDto =  userService.getUserByUserName(userUrl);
 
         return  new ResponseEntity<>(userDto,HttpStatus.FOUND);
     }
@@ -151,7 +151,7 @@ public class UserControllers {
         user.setProfileImage(imageName);
         user.setProfileImageUrl(fileDownloadUri);
 
-        userService.updateUser(user, userId);
+        userService.updateProfileImage(user, userId);
 
         FileResponse imageResponse = FileResponse.builder()
                 .fileName(image.getOriginalFilename()).success(true)
@@ -201,7 +201,7 @@ public class UserControllers {
         user.setResumeFile(resumeName);
         user.setResuleFileUrl(fileDownloadUri);
 
-        userService.updateUser(user, userId);
+        userService.updateUserResume(user, userId);
 
         FileResponse imageResponse = FileResponse.builder()
                 .fileName(resume.getOriginalFilename()).success(true)

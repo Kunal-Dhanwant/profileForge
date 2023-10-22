@@ -21,10 +21,14 @@ public class Project {
     @Id
     private  String projectId;
 
+    @Column(nullable = false)
     private  String  projectName;
+    @Column(nullable = false)
     private  String   description;
 
+    @Column(nullable = false)
     private Date startDate;
+    @Column(nullable = false)
     private  Date endDate;
 
     private  int teamSize;
