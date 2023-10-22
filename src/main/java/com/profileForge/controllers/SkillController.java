@@ -2,6 +2,7 @@ package com.profileForge.controllers;
 
 
 import com.profileForge.dtos.ApiResponse;
+import com.profileForge.dtos.SkillItemDto;
 import com.profileForge.dtos.SkillsDto;
 import com.profileForge.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,11 +81,31 @@ public class SkillController {
         skillsService.AddSkillToUser(userId,skillId);
 
         ApiResponse apiResponse = ApiResponse.builder().sucess(true)
-                .mesaage("skill deleted successfully!").status(HttpStatus.OK).build();
+                .mesaage("skill added successfully!").status(HttpStatus.OK).build();
 
         return  new ResponseEntity<>(apiResponse,HttpStatus.OK);
 
 
+    }
+
+    @DeleteMapping("/id/{skillId}/user/{userId}")
+    public  ResponseEntity<ApiResponse> delteSkill(@PathVariable String userId,@PathVariable String skillId){
+
+        skillsService.deleteSkillOfUser(userId,skillId);
+        ApiResponse apiResponse = ApiResponse.builder().sucess(true)
+                .mesaage("skill deleted successfully!").status(HttpStatus.OK).build();
+
+        return  new ResponseEntity<>(apiResponse,HttpStatus.OK);
+
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<SkillItemDto>>  getAllSkillsOfUser(@PathVariable String  userId){
+
+
+       List<SkillItemDto> skillItemDtos= skillsService.getAllSkillsOfUser(userId);
+
+       return  new ResponseEntity<>(skillItemDtos,HttpStatus.OK);
     }
 
 

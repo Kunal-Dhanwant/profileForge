@@ -55,6 +55,10 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setBio(userDto.getBio());
         user.setPhoneNo(userDto.getPhoneNo());
+        user.setProfileImage(userDto.getProfileImage());
+        user.setResumeFile(userDto.getResumeFile());
+        user.setResuleFileUrl(userDto.getResuleFileUrl());
+        user.setProfileImageUrl(userDto.getProfileImageUrl());
 
         User updateduser = userRepository.save(user);
 

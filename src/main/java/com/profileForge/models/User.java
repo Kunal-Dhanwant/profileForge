@@ -16,34 +16,55 @@ import java.util.List;
 @Builder
 @ToString
 
-@Table(name = "USER")
+
 @Entity
+@Table(name = "USER")
 public class User {
-
     @Id
-   private   String userId;
-   private    String email;
+    private String userId;
 
-  private   String userName;
-   private String password;
-  private   String firstName;
-  private   String lastName;
- private    String bio;
-  private   String phoneNo;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
- @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+    @Column(name = "username", unique = true, nullable = true)
+    private String userName;
+    @Column(name = "password", nullable = false, length = 20)
+    private String password;
+    private String firstName;
+    private String lastName;
+    @Column(length = 250)
+    private String bio;
+    private String phoneNo;
 
- private Address address;
+    private String profileImage;
+    private  String profileImageUrl;
 
- @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
- private List<Education> educations = new ArrayList<>();
+    private  String ResumeFile;
+    private  String  resuleFileUrl;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+
+    private Address address;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Education> educations = new ArrayList<>();
 
 
- @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
- private  SocialHandel socialHandel;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private SocialHandel socialHandel;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<SkillsItem> skillsList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Experience> experiences = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Achievement> achievements = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Project> projects = new ArrayList<>();
 
 
 }
