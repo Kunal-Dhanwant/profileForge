@@ -6,6 +6,8 @@ import com.profileForge.dtos.FileResponse;
 import com.profileForge.dtos.UserDto;
 import com.profileForge.service.AchievementService;
 import com.profileForge.service.FileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+
+@Tag(
+        name = "Achievements CRUD RestApi"
+)
 @RestController
 @RequestMapping("/achievement")
 public class AchievementController {
@@ -29,7 +35,10 @@ public class AchievementController {
     @Autowired
     private FileService fileService;
 
-
+    @Operation(
+            summary = "Add Achivement RestApi",
+            description = "This is used to add the new achievement of the user"
+    )
 
     @PostMapping("/user/{userId}")
     public ResponseEntity<AchievementDto> addAchievement(@RequestBody AchievementDto achievementDto,@PathVariable String userId){
@@ -39,6 +48,10 @@ public class AchievementController {
         return  new ResponseEntity<>(savedAchievement, HttpStatus.CREATED);
 
     }
+    @Operation(
+            summary = "Delete Achivement RestApi",
+            description = "This is used to delte the  achievement of the user"
+    )
 
     @DeleteMapping("/id/{achievementId}/user/{userId}")
     private ResponseEntity<ApiResponse> deleteAchievement(@PathVariable String achievementId, @PathVariable String userId){
@@ -54,6 +67,10 @@ public class AchievementController {
 
 
     }
+    @Operation(
+            summary = "Get All Achivements RestApi",
+            description = "This is used to fetch all the achievements of the user"
+    )
 
 
     @GetMapping("/user/{userId}")
@@ -64,6 +81,10 @@ public class AchievementController {
         return  new ResponseEntity<>(achievementDtoList,HttpStatus.OK);
 
     }
+    @Operation(
+            summary = "Update Achivement RestApi",
+            description = "This is used to update the achievement of the user"
+    )
 
     @PutMapping("/id/{achievementId}")
     public ResponseEntity<AchievementDto> updateAchievement(@RequestBody AchievementDto achievementDto,@PathVariable String achievementId){

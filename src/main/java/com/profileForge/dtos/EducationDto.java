@@ -26,8 +26,12 @@ public class EducationDto {
     private String City;
     @NotBlank(message = "please provide country name")
     private  String Country;
+    @NotBlank(message = "please provide starting Date")
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date startDate;
+    @NotBlank(message = "please provide ending Date")
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date endDate;
     @NotBlank(message = "please provide degree name")

@@ -3,6 +3,7 @@ package com.profileForge.config;
 
 import com.profileForge.Jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.apache.catalina.filters.CorsFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableMethodSecurity
@@ -34,7 +41,19 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jAuthenticationFilter;
 
+    private final String[]  PUBLIC_URL = {
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+            "/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/swagger-resources",
+            "/swagger-ui.html",
+            "/context-path/swagger-ui.html"
 
+    };
 
 
 
@@ -59,6 +78,20 @@ public class SecurityConfig {
         return builder.getAuthenticationManager();
     }
 
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedHeaders(Arrays.asList("Authorization","Origin", "Content-Type", "Accept"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean registration = new FilterRegistrationBean(new CorsFilter());
+        return registration;
+    }
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -74,6 +107,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/user/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/user/resume/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/user/username/**").permitAll()
+                                .requestMatchers(PUBLIC_URL).permitAll()
 
                                 .anyRequest().authenticated()).exceptionHandling(ex->ex.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -81,5 +115,8 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+
+
+
 
 }

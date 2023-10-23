@@ -8,6 +8,8 @@ import com.profileForge.dtos.UserDto;
 import com.profileForge.models.User;
 import com.profileForge.service.FileService;
 import com.profileForge.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+
+@Tag(
+        name = "CRUD REST APIs for User Resource"
+
+)
 @Slf4j
 @RestController
-@RequestMapping("/user")
+
 public class UserControllers {
 
 
@@ -43,6 +50,13 @@ public class UserControllers {
 
   @Autowired
   private UserService userService;
+
+
+    @Operation(
+            summary = "Signup User REST API",
+            description = "Signup User REST API is used to signUp the new  user "
+    )
+
     @PostMapping
     public ResponseEntity<UserDto>  createUser( @Valid @RequestBody SignUpDto signUpDto){
 
@@ -52,6 +66,12 @@ public class UserControllers {
 
 
     }
+
+    @Operation(
+            summary = "Delete User REST API",
+            description = "Delete User REST API is used to delete the  user "
+    )
+
 
 
     @DeleteMapping("/{userId}")
@@ -67,6 +87,10 @@ public class UserControllers {
     }
 
 
+    @Operation(
+            summary = "Update User REST API",
+            description = "Update User REST API is used to update the given  user "
+    )
 
 
     //  UPDATED USER
@@ -80,6 +104,12 @@ public class UserControllers {
 
     }
 
+    @Operation(
+            summary = "Get  User REST API",
+            description = "Get User REST API is used to fetch all  user "
+    )
+
+
     //  get ALL users
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers(){
@@ -89,7 +119,10 @@ public class UserControllers {
         return new ResponseEntity<>(users,HttpStatus.OK);
 
     }
-
+    @Operation(
+            summary = "Fetch User REST API",
+            description = "Fetch User REST API is used to fetch the detail of the user "
+    )
 
     @GetMapping("/id/{userId}")
     public ResponseEntity<UserDto>  getUserById(@PathVariable String userId){
@@ -97,7 +130,10 @@ public class UserControllers {
 
         return  new ResponseEntity<>(userDto,HttpStatus.FOUND);
     }
-
+    @Operation(
+            summary = "Fetch User REST API",
+            description = "Fetch User REST API is used to fetch the detail of the user by userUrl "
+    )
 
     @GetMapping("/username/{userUrl}")
     public ResponseEntity<UserDto>  getUserByUserName(@PathVariable String userUrl){
@@ -105,6 +141,11 @@ public class UserControllers {
 
         return  new ResponseEntity<>(userDto,HttpStatus.FOUND);
     }
+
+    @Operation(
+            summary = "Exist User REST API",
+            description = "Exist User REST API is used to check weather the given userUrl is already exost or not ? "
+    )
 
 
     @GetMapping("/exist/{userName}")
@@ -130,6 +171,12 @@ public class UserControllers {
 
     }
 
+
+    @Operation(
+            summary = "upload User Profile Image REST API",
+            description = "Upload User REST API is used to upload the profile image of  the  of the user"
+
+    )
 
     @PostMapping("/image/{userId}")
     public ResponseEntity<FileResponse> uploadUserImage(@RequestParam ("userImage") MultipartFile image, @PathVariable String userId) throws IOException {
@@ -163,6 +210,11 @@ public class UserControllers {
 
     }
 
+    @Operation(
+            summary = "Fetch User Profile Image REST API",
+            description = "This REST API is used to fetch the profile Image of the user "
+    )
+
     @GetMapping("/image/{userId}")
     public void serveUserImage(@PathVariable String userId, HttpServletResponse response) throws IOException {
 
@@ -176,7 +228,10 @@ public class UserControllers {
         StreamUtils.copy(resource, response.getOutputStream());
     }
 
-
+    @Operation(
+            summary = "Upload User Resume REST API",
+            description = "This User REST API is used to uplaod the resume of the user "
+    )
 
 
     @PostMapping("/resume/{userId}")
@@ -212,7 +267,10 @@ public class UserControllers {
 
 
     }
-
+    @Operation(
+            summary = "Fetch User Resume REST API",
+            description = "This User REST API is used to fetch the resume of the user "
+    )
     @GetMapping("/resume/{userId}")
     public void serveUserResume(@PathVariable String userId, HttpServletResponse response) throws IOException {
 

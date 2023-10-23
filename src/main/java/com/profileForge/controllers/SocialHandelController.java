@@ -5,11 +5,17 @@ import com.profileForge.dtos.ApiResponse;
 import com.profileForge.dtos.SocialHandelDto;
 import com.profileForge.models.SocialHandel;
 import com.profileForge.service.SocialHandelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+@Tag(
+        name = "Social Handels CRUD RestApi"
+)
 @RestController
 @RequestMapping("social")
 public class SocialHandelController {
@@ -19,7 +25,9 @@ public class SocialHandelController {
 
 
 
+    @Operation(
 
+    )
     @PostMapping("/user/{userId}")
 
     public ResponseEntity<SocialHandelDto> addSocailHandels(@RequestBody SocialHandelDto socialHandelDto, @PathVariable String  userId){
