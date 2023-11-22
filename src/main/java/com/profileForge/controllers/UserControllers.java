@@ -128,7 +128,7 @@ public class UserControllers {
     public ResponseEntity<UserDto>  getUserById(@PathVariable String userId){
         UserDto  userDto =  userService.getUserById(userId);
 
-        return  new ResponseEntity<>(userDto,HttpStatus.FOUND);
+        return  new ResponseEntity<>(userDto,HttpStatus.OK);
     }
     @Operation(
             summary = "Fetch User REST API",
@@ -139,7 +139,7 @@ public class UserControllers {
     public ResponseEntity<UserDto>  getUserByUserName(@PathVariable String userUrl){
         UserDto  userDto =  userService.getUserByUserName(userUrl);
 
-        return  new ResponseEntity<>(userDto,HttpStatus.FOUND);
+        return  new ResponseEntity<>(userDto,HttpStatus.OK);
     }
 
     @Operation(

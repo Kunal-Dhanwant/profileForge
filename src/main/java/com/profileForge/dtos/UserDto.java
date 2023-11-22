@@ -4,7 +4,8 @@ package com.profileForge.dtos;
 import com.profileForge.models.Achievement;
 import com.profileForge.models.Education;
 import com.profileForge.models.Experience;
-import com.profileForge.models.SkillsItem;
+
+import com.profileForge.models.Skill;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -44,7 +45,7 @@ public class UserDto {
    private SocialHandelDto socialHandel;
 
    private List<EducationDto> educations;
-   private List<SkillItemDto> skillsList = new ArrayList<>();
+   private List<SkillsDto> skillsList = new ArrayList<>();
 
    private List<ExperienceDto> experiences = new ArrayList<>();
 

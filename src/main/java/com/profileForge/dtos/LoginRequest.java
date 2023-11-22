@@ -13,7 +13,6 @@ import lombok.*;
 
 public class LoginRequest {
     @NotBlank(message = "please provide email")
-
     private  String email;
 
     @NotBlank(message = "please provide password")

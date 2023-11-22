@@ -1,7 +1,7 @@
 package com.profileForge.models;
 
 
-import com.profileForge.dtos.SkillItemDto;
+import com.profileForge.dtos.SkillsDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,7 +57,7 @@ public class User  implements UserDetails {
     private SocialHandel socialHandel;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private List<SkillsItem> skillsList = new ArrayList<>();
+    private List<Skill> skillsList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Experience> experiences = new ArrayList<>();
